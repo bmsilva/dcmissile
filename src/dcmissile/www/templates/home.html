@@ -1,0 +1,63 @@
+<!DOCTYPE htm>
+<html>
+<head>
+<script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.6.2/jquery.min.js"></script>
+<script type="text/javascript" src="https://raw.github.com/lmmendes/jquery.konami/master/jquery.konami.js"></script>
+<script type="text/javascript">
+    $(document).ready(function() {
+        
+        var v =  0;
+        var h = 0;
+
+        $('#id_parameter').focus();
+
+        function post(action){
+            var params = $('#form').serialize()
+            params = params + "&action=" + action
+            //console.log(params)
+            $('#' + action ).addClass('red');
+            $.post('/', params, function(d){
+                $('#' + action ).removeClass('red');
+            });
+        }
+
+        $('body').live('keyup', function(e){
+            //e.preventDefault();
+            
+            var k = e.keyCode;
+            k == 37 && ( $('#id_parameter').attr('value', 100) && post('left') );
+            k == 39 && ( $('#id_parameter').attr('value', 100) && post('right') );
+            k == 38 && ( $('#id_parameter').attr('value', 50) && post('up') );
+            k == 40 && ( $('#id_parameter').attr('value', 50) && post('down') );
+            k == 32 && ( $('#id_parameter').attr('value', 1) && post('fire') );
+        });
+
+/*        $(window).konami(function(){
+            alert('Danger will robinson, danger! Kill all humans!');
+            $('#id_parameter').attr('value', 4) && post('fire');
+            $('#id_parameter').attr('value', 0); 
+        });
+*/
+    });
+
+</script>
+
+<style class="css/text">
+    .red { color: red; }
+</style>
+
+</head>
+<body>
+<h1>Missile Launcher</h1>
+<form method="post" action="" id="form" name="missile">{% csrf_token %}
+<table>
+<tr><td><b>{{ form.parameter.label }}</b></td><td>{{ form.parameter }}</td></tr>
+</table>
+<input type="submit" name="action" id="left" value="left">
+<input type="submit" name="action" id="right" value="right">
+<input type="submit" name="action" id="up" value="up">
+<input type="submit" name="action" id="down" value="down">
+<input type="submit" name="action" id="fire" value="fire">
+</form>
+</body>
+</html>
