@@ -8,7 +8,6 @@ from django.core.urlresolvers import reverse
 from django.shortcuts import redirect
 
 from dcmissile.util.decorators import do
-from dcmissile.util.retaliation import main
 from dcmissile.www.forms import MissileForm
 
 DOWN    = 0x01
